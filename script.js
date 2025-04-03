@@ -2,38 +2,38 @@
 const add = function(array) {
 	return array.reduce(((prev, current) => prev + current), 0)
 };
-console.log(add([2, 4, 6, 5,]));
 
 const subtract = function(array) {
-	return array.reduce(((prev, current) => prev - current), 0)
+	return array.reduce(((prev, current) => prev - current))
 }; 
-console.log(subtract([2, 4, 6, 5,]));
 
 const multiply = function(array) {
   return array.reduce(((prev, current) => prev * current), 1)
 };
-console.log(multiply([2, 4, 6, 5,]));
 
 const divide = function(array) {
-    return array.reduce(((prev, current) => prev / current), 1)
+    return array.reduce(((prev, current) => prev / current))
   };
-  console.log(divide([2, 4, 6, 5,]));
 
-  let num1 
+  let nums = [];
+  let num = '';
   let op 
-  let num2
 
   function operate(operator, firstNumber, secondNumber) {
-    let numArr = [firstNumber, secondNumber]
+    let numArr = [Number(firstNumber), Number(secondNumber)];
     if (operator == '+') {
-        add(numArr);
+        return add(numArr);
     } else if (operator == '-') {
-        subtract(numArr);
+        return subtract(numArr);
     } else if  (operator == '*') {
-        multiply(numArr);
+        return multiply(numArr);
     } else if  (operator == '/') {
-        divide(numArr);
+        if (secondNumber == 0) {
+            return `You can't do that!`
+        }
+        return divide(numArr);
     }
+    return 'Try a Valid Operation'
   }
 
 // Phyical Layout
@@ -46,11 +46,12 @@ container.appendChild(title);
 
 const display = document.createElement('div');
 const input = document.createElement('span');
-input.textContent = '1 + 1';
+input.textContent = '';
 display.appendChild(input);
 container.appendChild(display);
 
 const tools = document.createElement('div');
+tools.classList.add('btns')
 
 
 const buttons = []
@@ -72,10 +73,45 @@ for (let i = 0; i <= 15; i++) {
     } else if (i == 15) {
         button.textContent = `=`; 
     }
-
-
-    buttons.push(button);
+       buttons.push(button);
 }
 
 tools.append(...buttons);
 container.appendChild(tools);
+
+tools.addEventListener("click", (event) => {
+    let clicked
+    let target = event.target;
+    if (target.textContent == 'C') {
+        input.textContent = '';
+        op = '';
+    }
+    else if(target.textContent == '+' ||
+            target.textContent == '-' ||
+            target.textContent == '*' ||
+            target.textContent == '/') {
+                if (op !== '' && nums.length <= 2){
+                    let result = operate(op, nums[0], nums[1]);
+                    input.textContent = `${Math.floor(result * 100) / 100}`
+                }
+
+        num = input.textContent;
+        op = target.textContent;
+        nums.push(num);
+        input.textContent = '';
+    } 
+    else if (target.textContent == '='){
+        num = input.textContent;
+        nums.push(num);
+        let result = operate(op, nums[0], nums[1]);
+        input.textContent = `${Math.floor(result * 100) / 100}`;
+        nums = [];
+        num = '';
+    }
+    else if (target.matches('button')) {
+        input.textContent += target.textContent;
+    }
+
+})
+
+
