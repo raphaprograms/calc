@@ -62,9 +62,17 @@ buttons.forEach(value => {
     buttonContainer.appendChild(button);
 });
 
+let decimalCount = 0;
+
 function handleButtonClick(value) {
     if (!isNaN(value) || value === '.') {
+        if (value === '.') {
+            decimalCount++;
+        }
         currentInput += value;
+        if (currentInput.includes('.') && decimalCount > 1){
+            return;
+        }
         display.value = currentInput;
     } else if (['+', '-', '*', '/'].includes(value)) {
         if (currentInput !== '') {
