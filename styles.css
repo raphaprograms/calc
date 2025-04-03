@@ -1,22 +1,44 @@
 * {
-    margin: 0;
-    padding: 0;
+    box-sizing: border-box;
 }
+
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: center
+    align-items: center;
+    width: 510px;
+    border: 2px solid black;
+    margin-left: 50px;  s
+}
+
+input {
+    display: flex;
     justify-content: center;
     align-items: center;
+    align-self: center;
+    width: 375px;
+    height: 30px;
+    font-size: 20px;
+   
+}
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
     border: 2px solid black;
     width: 500px;
 }
 
-.tools {
+button {
     display: flex;
     flex-wrap: wrap;
-    width: 500px;
+    width: 125px;
+    height: 50px;
 }
 
-div button {
+ {
     width: 166px; 
 }

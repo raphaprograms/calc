@@ -15,10 +15,6 @@ const divide = function(array) {
     return array.reduce(((prev, current) => prev / current))
   };
 
-  let nums = [];
-  let num = '';
-  let op 
-
   function operate(operator, firstNumber, secondNumber) {
     let numArr = [Number(firstNumber), Number(secondNumber)];
     if (operator == '+') {
@@ -38,78 +34,56 @@ const divide = function(array) {
 
 // Phyical Layout
 
-const container = document.querySelector('.container');
+const buttons = [
+        '7', '8', '9', '/',
+        '4', '5', '6', '*',
+        '1', '2', '3', '-',
+        '0', '.', '=', '+',
+        'C'
+];
 
-const title = document.createElement('div');
-title.textContent = 'CALCULATOR';
-container.appendChild(title);
+const container = document.querySelector('.container')
 
-const display = document.createElement('div');
-const input = document.createElement('span');
-input.textContent = '';
-display.appendChild(input);
-container.appendChild(display);
+const buttonContainer = document.querySelector('.buttons');
+const display = document.querySelector('input');
+let currentInput = '';
+let operator = null;
+let firstOperand = null;
 
-const tools = document.createElement('div');
-tools.classList.add('btns')
-
-
-const buttons = []
-for (let i = 0; i <= 15; i++) {
-    button = document.createElement('button');
-    button.textContent = `${i}`;
-     if (i == 0) {
-        button.textContent = `C`;
-     } else if (i == 10) {
-        button.textContent = `0`; 
-    } else if (i == 11) {
-        button.textContent = `+`; 
-    } else if (i == 12) {
-        button.textContent = `-`; 
-    } else if (i == 13) {
-        button.textContent = `*`; 
-    } else if (i == 14) {
-        button.textContent = `/`; 
-    } else if (i == 15) {
-        button.textContent = `=`; 
+buttonContainer.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON') {
+        handleButtonClick(event.target.textContent)
     }
-       buttons.push(button);
+});
+
+buttons.forEach(value => {
+    const button = document.createElement('button');
+    button.textContent = value;
+    buttonContainer.appendChild(button);
+});
+
+function handleButtonClick(value) {
+    if (!isNaN(value) || value === '.') {
+        currentInput += value;
+        display.value = currentInput;
+    } else if (['+', '-', '*', '/'].includes(value)) {
+        if (currentInput !== '') {
+            firstOperand = parseFloat(currentInput);
+            operator = value;
+            currentInput = '';
+        }
+    } else if (value === '=') {
+        if (firstOperand !== null && operator && currentInput !== '') {
+            const secondOperand = parseFloat(currentInput);
+            display.value = operate(operator, firstOperand, secondOperand);
+            currentInput = display.value;
+            firstOperand = null;
+            operator = null;
+        }
+    } else if (value === 'C') {
+        currentInput = '';
+        firstOperand = null;
+        operator =  null;
+        display.value = '';
+    }
 }
-
-tools.append(...buttons);
-container.appendChild(tools);
-
-tools.addEventListener("click", (event) => {
-    let target = event.target;
-    if (target.textContent == 'C') {
-        input.textContent = '';
-        op = '';
-        nums = [];
-        num = '';
-    }
-    else if(target.textContent == '+' ||
-            target.textContent == '-' ||
-            target.textContent == '*' ||
-            target.textContent == '/') {
-        num = input.textContent;
-        nums.push(num);
-        if (op !== ''){
-            op = target.textContent;
-        } else if()
-
-    } 
-    else if (target.textContent == '='){
-        num = input.textContent;
-        nums.push(num);
-        let result = operate(op, nums[0], nums[1]);
-        input.textContent = `${Math.floor(result * 100) / 100}`;
-        nums = [];
-        num = '';
-    }
-    else if (target.matches('button')) {
-        input.textContent += target.textContent;
-    }
-
-})
-
-
