@@ -80,25 +80,23 @@ tools.append(...buttons);
 container.appendChild(tools);
 
 tools.addEventListener("click", (event) => {
-    let clicked
     let target = event.target;
     if (target.textContent == 'C') {
         input.textContent = '';
         op = '';
+        nums = [];
+        num = '';
     }
     else if(target.textContent == '+' ||
             target.textContent == '-' ||
             target.textContent == '*' ||
             target.textContent == '/') {
-                if (op !== '' && nums.length <= 2){
-                    let result = operate(op, nums[0], nums[1]);
-                    input.textContent = `${Math.floor(result * 100) / 100}`
-                }
-
         num = input.textContent;
-        op = target.textContent;
         nums.push(num);
-        input.textContent = '';
+        if (op !== ''){
+            op = target.textContent;
+        } else if()
+
     } 
     else if (target.textContent == '='){
         num = input.textContent;
